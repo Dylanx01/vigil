@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 from scheduler import start_scheduler, stop_scheduler
-from routers import scores, signalements, abonnements
+from routers import scores, signalements, abonnements, auth
 import os
 
 load_dotenv()
@@ -35,6 +35,7 @@ app.add_middleware(
 app.include_router(scores.router, prefix="/api/scores", tags=["Scores"])
 app.include_router(signalements.router, prefix="/api/signalements", tags=["Signalements"])
 app.include_router(abonnements.router, prefix="/api/abonnements", tags=["Abonnements"])
+app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 
 @app.get("/")
 async def root():
