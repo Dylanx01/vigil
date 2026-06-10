@@ -1,0 +1,100 @@
+{
+    "quartiers": [
+      {
+        "id": "makepe",
+        "nom": "Makepe",
+        "nom_en": "Makepe",
+        "lat": 4.0731,
+        "lng": 9.7478,
+        "vulnerabilite": 0.85
+      },
+      {
+        "id": "new-bell",
+        "nom": "New Bell",
+        "nom_en": "New Bell",
+        "lat": 4.0489,
+        "lng": 9.6921,
+        "vulnerabilite": 0.90
+      },
+      {
+        "id": "ndokotti",
+        "nom": "Ndokotti",
+        "nom_en": "Ndokotti",
+        "lat": 4.0412,
+        "lng": 9.7103,
+        "vulnerabilite": 0.80
+      },
+      {
+        "id": "bonamoussadi",
+        "nom": "Bonamoussadi",
+        "nom_en": "Bonamoussadi",
+        "lat": 4.0891,
+        "lng": 9.7234,
+        "vulnerabilite": 0.60
+      },
+      {
+        "id": "bonaberi",
+        "nom": "Bonabéri",
+        "nom_en": "Bonaberi",
+        "lat": 4.0673,
+        "lng": 9.6543,
+        "vulnerabilite": 0.88
+      },
+      {
+        "id": "deido",
+        "nom": "Deido",
+        "nom_en": "Deido",
+        "lat": 4.0634,
+        "lng": 9.7156,
+        "vulnerabilite": 0.65
+      },
+      {
+        "id": "akwa",
+        "nom": "Akwa",
+        "nom_en": "Akwa",
+        "lat": 4.0511,
+        "lng": 9.7039,
+        "vulnerabilite": 0.35
+      },
+      {
+        "id": "bonapriso",
+        "nom": "Bonapriso",
+        "nom_en": "Bonapriso",
+        "lat": 4.0423,
+        "lng": 9.6987,
+        "vulnerabilite": 0.30
+      },
+      {
+        "id": "logbessou",
+        "nom": "Logbessou",
+        "nom_en": "Logbessou",
+        "lat": 4.1023,
+        "lng": 9.7512,
+        "vulnerabilite": 0.55
+      },
+      {
+        "id": "ndog-bong",
+        "nom": "Ndog-Bong",
+        "nom_en": "Ndog-Bong",
+        "lat": 4.0312,
+        "lng": 9.6834,
+        "vulnerabilite": 0.75
+      },
+      {
+        "id": "bali",
+        "nom": "Bali",
+        "nom_en": "Bali",
+        "lat": 4.0567,
+        "lng": 9.6912,
+        "vulnerabilite": 0.50
+      },
+      {
+        "id": "kotto",
+        "nom": "Kotto",
+        "nom_en": "Kotto",
+        "lat": 4.0934,
+        "lng": 9.7634,
+        "vulnerabilite": 0.70
+      }
+    ]
+  }
