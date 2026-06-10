@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from supabase import create_client
 from dotenv import load_dotenv
+from datetime import datetime, timezone, timedelta
 import os
 
 load_dotenv()
@@ -14,77 +15,104 @@ supabase = create_client(
 
 @router.get("/")
 async def get_tous_les_scores():
-    """
-    Retourne le dernier score de risque pour chaque quartier.
-    C'est cet endpoint que la carte frontend appelle.
-    """
     try:
-        # Pour chaque quartier on veut uniquement le score le plus récent
-        response = supabase.rpc("get_derniers_scores").execute()
-        return {"scores": response.data}
-        
+        quartiers = supabase.table("quartiers").select("*").execute()
+
+        scores_result = []
+        for q in quartiers.data:
+            dernier = supabase.table("scores_risque")\
+                .select("*")\
+                .eq("quartier_id", q["id"])\
+                .order("calculated_at", desc=True)\
+                .limit(1)\
+                .execute()
+
+            if dernier.data:
+                s = dernier.data[0]
+                scores_result.append({
+                    "quartier_id": q["id"],
+                    "nom": q["nom"],
+                    "nom_en": q["nom_en"],
+                    "lat": q["lat"],
+                    "lng": q["lng"],
+                    "score": s["score"],
+                    "niveau": s["niveau"],
+                    "pluie_6h": s["pluie_6h"],
+                    "pluie_24h": s["pluie_24h"],
+                    "calculated_at": s["calculated_at"]
+                })
+            else:
+                scores_result.append({
+                    "quartier_id": q["id"],
+                    "nom": q["nom"],
+                    "nom_en": q["nom_en"],
+                    "lat": q["lat"],
+                    "lng": q["lng"],
+                    "score": 0,
+                    "niveau": "faible",
+                    "pluie_6h": 0,
+                    "pluie_24h": 0,
+                    "calculated_at": None
+                })
+
+        return {"scores": scores_result}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @router.get("/{quartier_id}")
 async def get_score_quartier(quartier_id: str):
-    """
-    Retourne le dernier score d'un quartier spécifique
-    avec son historique des 24 dernières heures.
-    """
     try:
-        # Dernier score
         dernier = supabase.table("scores_risque")\
             .select("*")\
             .eq("quartier_id", quartier_id)\
             .order("calculated_at", desc=True)\
             .limit(1)\
             .execute()
-        
+
         if not dernier.data:
             raise HTTPException(
                 status_code=404,
                 detail=f"Quartier '{quartier_id}' introuvable"
             )
-        
-        # Historique 24h
+
+        vingt_quatre_heures_avant = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
+        deux_heures_avant = (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat()
+
         historique = supabase.table("scores_risque")\
             .select("score, niveau, calculated_at")\
             .eq("quartier_id", quartier_id)\
-            .gte("calculated_at", "now() - interval '24 hours'")\
+            .gte("calculated_at", vingt_quatre_heures_avant)\
             .order("calculated_at", desc=False)\
             .execute()
-        
-        # Nombre de signalements actifs
+
         signalements = supabase.table("signalements")\
             .select("id")\
             .eq("quartier_id", quartier_id)\
             .eq("valide", True)\
-            .gte("created_at", "now() - interval '2 hours'")\
+            .gte("created_at", deux_heures_avant)\
             .execute()
-        
+
         return {
             "quartier_id": quartier_id,
             "score_actuel": dernier.data[0],
             "historique_24h": historique.data,
             "signalements_actifs": len(signalements.data)
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @router.post("/calculer")
 async def forcer_calcul():
-    """
-    Force un recalcul immédiat des scores.
-    Utile pour les tests et la démo.
-    """
     try:
         from services.scoring import calculer_tous_les_scores
         await calculer_tous_les_scores()
         return {"message": "Calcul déclenché avec succès"}
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

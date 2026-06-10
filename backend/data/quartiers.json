@@ -1,100 +1,29 @@
 {
-    "quartiers": [
-      {
-        "id": "makepe",
-        "nom": "Makepe",
-        "nom_en": "Makepe",
-        "lat": 4.0731,
-        "lng": 9.7478,
-        "vulnerabilite": 0.85
-      },
-      {
-        "id": "new-bell",
-        "nom": "New Bell",
-        "nom_en": "New Bell",
-        "lat": 4.0489,
-        "lng": 9.6921,
-        "vulnerabilite": 0.90
-      },
-      {
-        "id": "ndokotti",
-        "nom": "Ndokotti",
-        "nom_en": "Ndokotti",
-        "lat": 4.0412,
-        "lng": 9.7103,
-        "vulnerabilite": 0.80
-      },
-      {
-        "id": "bonamoussadi",
-        "nom": "Bonamoussadi",
-        "nom_en": "Bonamoussadi",
-        "lat": 4.0891,
-        "lng": 9.7234,
-        "vulnerabilite": 0.60
-      },
-      {
-        "id": "bonaberi",
-        "nom": "Bonabéri",
-        "nom_en": "Bonaberi",
-        "lat": 4.0673,
-        "lng": 9.6543,
-        "vulnerabilite": 0.88
-      },
-      {
-        "id": "deido",
-        "nom": "Deido",
-        "nom_en": "Deido",
-        "lat": 4.0634,
-        "lng": 9.7156,
-        "vulnerabilite": 0.65
-      },
-      {
-        "id": "akwa",
-        "nom": "Akwa",
-        "nom_en": "Akwa",
-        "lat": 4.0511,
-        "lng": 9.7039,
-        "vulnerabilite": 0.35
-      },
-      {
-        "id": "bonapriso",
-        "nom": "Bonapriso",
-        "nom_en": "Bonapriso",
-        "lat": 4.0423,
-        "lng": 9.6987,
-        "vulnerabilite": 0.30
-      },
-      {
-        "id": "logbessou",
-        "nom": "Logbessou",
-        "nom_en": "Logbessou",
-        "lat": 4.1023,
-        "lng": 9.7512,
-        "vulnerabilite": 0.55
-      },
-      {
-        "id": "ndog-bong",
-        "nom": "Ndog-Bong",
-        "nom_en": "Ndog-Bong",
-        "lat": 4.0312,
-        "lng": 9.6834,
-        "vulnerabilite": 0.75
-      },
-      {
-        "id": "bali",
-        "nom": "Bali",
-        "nom_en": "Bali",
-        "lat": 4.0567,
-        "lng": 9.6912,
-        "vulnerabilite": 0.50
-      },
-      {
-        "id": "kotto",
-        "nom": "Kotto",
-        "nom_en": "Kotto",
-        "lat": 4.0934,
-        "lng": 9.7634,
-        "vulnerabilite": 0.70
-      }
-    ]
-  }
+  "quartiers": [
+    { "id": "makepe", "nom": "Makepe", "nom_en": "Makepe", "lat": 4.0731, "lng": 9.7478, "vulnerabilite": 0.85 },
+    { "id": "new-bell", "nom": "New Bell", "nom_en": "New Bell", "lat": 4.0489, "lng": 9.6921, "vulnerabilite": 0.90 },
+    { "id": "ndokotti", "nom": "Ndokotti", "nom_en": "Ndokotti", "lat": 4.0412, "lng": 9.7103, "vulnerabilite": 0.80 },
+    { "id": "bonamoussadi", "nom": "Bonamoussadi", "nom_en": "Bonamoussadi", "lat": 4.0891, "lng": 9.7234, "vulnerabilite": 0.60 },
+    { "id": "bonaberi", "nom": "Bonabéri", "nom_en": "Bonaberi", "lat": 4.0673, "lng": 9.6543, "vulnerabilite": 0.88 },
+    { "id": "deido", "nom": "Deido", "nom_en": "Deido", "lat": 4.0634, "lng": 9.7156, "vulnerabilite": 0.65 },
+    { "id": "akwa", "nom": "Akwa", "nom_en": "Akwa", "lat": 4.0511, "lng": 9.7039, "vulnerabilite": 0.35 },
+    { "id": "bonapriso", "nom": "Bonapriso", "nom_en": "Bonapriso", "lat": 4.0423, "lng": 9.6987, "vulnerabilite": 0.30 },
+    { "id": "logbessou", "nom": "Logbessou", "nom_en": "Logbessou", "lat": 4.1023, "lng": 9.7512, "vulnerabilite": 0.55 },
+    { "id": "ndog-bong", "nom": "Ndog-Bong", "nom_en": "Ndog-Bong", "lat": 4.0312, "lng": 9.6834, "vulnerabilite": 0.75 },
+    { "id": "bali", "nom": "Bali", "nom_en": "Bali", "lat": 4.0567, "lng": 9.6912, "vulnerabilite": 0.50 },
+    { "id": "kotto", "nom": "Kotto", "nom_en": "Kotto", "lat": 4.0934, "lng": 9.7634, "vulnerabilite": 0.70 },
+    { "id": "bassa", "nom": "Bassa", "nom_en": "Bassa", "lat": 4.0234, "lng": 9.7456, "vulnerabilite": 0.78 },
+    { "id": "pk8", "nom": "PK 8", "nom_en": "PK 8", "lat": 4.0823, "lng": 9.7823, "vulnerabilite": 0.65 },
+    { "id": "pk10", "nom": "PK 10", "nom_en": "PK 10", "lat": 4.0956, "lng": 9.7934, "vulnerabilite": 0.60 },
+    { "id": "pk14", "nom": "PK 14", "nom_en": "PK 14", "lat": 4.1134, "lng": 9.8123, "vulnerabilite": 0.55 },
+    { "id": "ndogpassi", "nom": "Ndogpassi", "nom_en": "Ndogpassi", "lat": 4.0156, "lng": 9.7634, "vulnerabilite": 0.82 },
+    { "id": "mboppi", "nom": "Mboppi", "nom_en": "Mboppi", "lat": 4.0589, "lng": 9.7234, "vulnerabilite": 0.72 },
+    { "id": "nkongmondo", "nom": "Nkongmondo", "nom_en": "Nkongmondo", "lat": 4.0467, "lng": 9.6834, "vulnerabilite": 0.68 },
+    { "id": "ange-raphael", "nom": "Ange Raphaël", "nom_en": "Ange Raphael", "lat": 4.0378, "lng": 9.7012, "vulnerabilite": 0.45 },
+    { "id": "brazzaville", "nom": "Brazzaville", "nom_en": "Brazzaville", "lat": 4.0289, "lng": 9.6756, "vulnerabilite": 0.70 },
+    { "id": "mabanda", "nom": "Mabanda", "nom_en": "Mabanda", "lat": 4.0712, "lng": 9.6623, "vulnerabilite": 0.83 },
+    { "id": "sodiko", "nom": "Sodiko", "nom_en": "Sodiko", "lat": 4.0834, "lng": 9.6712, "vulnerabilite": 0.77 },
+    { "id": "yassa", "nom": "Yassa", "nom_en": "Yassa", "lat": 4.0067, "lng": 9.8012, "vulnerabilite": 0.58 },
+    { "id": "japoma", "nom": "Japoma", "nom_en": "Japoma", "lat": 3.9956, "lng": 9.8134, "vulnerabilite": 0.52 }
+  ]
+}

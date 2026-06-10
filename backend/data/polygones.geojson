@@ -1,137 +1,280 @@
 {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": { "id": "makepe", "nom": "Makepe" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.7378, 4.0631], [9.7578, 4.0631],
-            [9.7578, 4.0831], [9.7378, 4.0831], [9.7378, 4.0631]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "new-bell", "nom": "New Bell" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.6821, 4.0389], [9.7021, 4.0389],
-            [9.7021, 4.0589], [9.6821, 4.0589], [9.6821, 4.0389]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "ndokotti", "nom": "Ndokotti" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.7003, 4.0312], [9.7203, 4.0312],
-            [9.7203, 4.0512], [9.7003, 4.0512], [9.7003, 4.0312]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "bonamoussadi", "nom": "Bonamoussadi" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.7134, 4.0791], [9.7334, 4.0791],
-            [9.7334, 4.0991], [9.7134, 4.0991], [9.7134, 4.0791]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "bonaberi", "nom": "Bonabéri" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.6443, 4.0573], [9.6643, 4.0573],
-            [9.6643, 4.0773], [9.6443, 4.0773], [9.6443, 4.0573]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "deido", "nom": "Deido" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.7056, 4.0534], [9.7256, 4.0534],
-            [9.7256, 4.0734], [9.7056, 4.0734], [9.7056, 4.0534]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "akwa", "nom": "Akwa" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.6939, 4.0411], [9.7139, 4.0411],
-            [9.7139, 4.0611], [9.6939, 4.0611], [9.6939, 4.0411]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "bonapriso", "nom": "Bonapriso" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.6887, 4.0323], [9.7087, 4.0323],
-            [9.7087, 4.0523], [9.6887, 4.0523], [9.6887, 4.0323]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "logbessou", "nom": "Logbessou" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.7412, 4.0923], [9.7612, 4.0923],
-            [9.7612, 4.1123], [9.7412, 4.1123], [9.7412, 4.0923]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "ndog-bong", "nom": "Ndog-Bong" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.6734, 4.0212], [9.6934, 4.0212],
-            [9.6934, 4.0412], [9.6734, 4.0412], [9.6734, 4.0212]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "bali", "nom": "Bali" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.6812, 4.0467], [9.7012, 4.0467],
-            [9.7012, 4.0667], [9.6812, 4.0667], [9.6812, 4.0467]
-          ]]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "id": "kotto", "nom": "Kotto" },
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [9.7534, 4.0834], [9.7734, 4.0834],
-            [9.7734, 4.1034], [9.7534, 4.1034], [9.7534, 4.0834]
-          ]]
-        }
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "id": "makepe", "nom": "Makepe" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7378, 4.0631], [9.7578, 4.0631],
+          [9.7578, 4.0831], [9.7378, 4.0831], [9.7378, 4.0631]
+        ]]
       }
-    ]
-  }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "new-bell", "nom": "New Bell" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6821, 4.0389], [9.7021, 4.0389],
+          [9.7021, 4.0589], [9.6821, 4.0589], [9.6821, 4.0389]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "ndokotti", "nom": "Ndokotti" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7003, 4.0312], [9.7203, 4.0312],
+          [9.7203, 4.0512], [9.7003, 4.0512], [9.7003, 4.0312]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "bonamoussadi", "nom": "Bonamoussadi" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7134, 4.0791], [9.7334, 4.0791],
+          [9.7334, 4.0991], [9.7134, 4.0991], [9.7134, 4.0791]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "bonaberi", "nom": "Bonabéri" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6443, 4.0573], [9.6643, 4.0573],
+          [9.6643, 4.0773], [9.6443, 4.0773], [9.6443, 4.0573]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "deido", "nom": "Deido" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7056, 4.0534], [9.7256, 4.0534],
+          [9.7256, 4.0734], [9.7056, 4.0734], [9.7056, 4.0534]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "akwa", "nom": "Akwa" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6939, 4.0411], [9.7139, 4.0411],
+          [9.7139, 4.0611], [9.6939, 4.0611], [9.6939, 4.0411]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "bonapriso", "nom": "Bonapriso" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6887, 4.0323], [9.7087, 4.0323],
+          [9.7087, 4.0523], [9.6887, 4.0523], [9.6887, 4.0323]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "logbessou", "nom": "Logbessou" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7412, 4.0923], [9.7612, 4.0923],
+          [9.7612, 4.1123], [9.7412, 4.1123], [9.7412, 4.0923]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "ndog-bong", "nom": "Ndog-Bong" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6734, 4.0212], [9.6934, 4.0212],
+          [9.6934, 4.0412], [9.6734, 4.0412], [9.6734, 4.0212]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "bali", "nom": "Bali" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6812, 4.0467], [9.7012, 4.0467],
+          [9.7012, 4.0667], [9.6812, 4.0667], [9.6812, 4.0467]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "kotto", "nom": "Kotto" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7534, 4.0834], [9.7734, 4.0834],
+          [9.7734, 4.1034], [9.7534, 4.1034], [9.7534, 4.0834]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "bassa", "nom": "Bassa" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7356, 4.0134], [9.7556, 4.0134],
+          [9.7556, 4.0334], [9.7356, 4.0334], [9.7356, 4.0134]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "pk8", "nom": "PK 8" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7723, 4.0723], [9.7923, 4.0723],
+          [9.7923, 4.0923], [9.7723, 4.0923], [9.7723, 4.0723]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "pk10", "nom": "PK 10" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7834, 4.0856], [9.8034, 4.0856],
+          [9.8034, 4.1056], [9.7834, 4.1056], [9.7834, 4.0856]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "pk14", "nom": "PK 14" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.8023, 4.1034], [9.8223, 4.1034],
+          [9.8223, 4.1234], [9.8023, 4.1234], [9.8023, 4.1034]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "ndogpassi", "nom": "Ndogpassi" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7534, 4.0056], [9.7734, 4.0056],
+          [9.7734, 4.0256], [9.7534, 4.0256], [9.7534, 4.0056]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "mboppi", "nom": "Mboppi" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7134, 4.0489], [9.7334, 4.0489],
+          [9.7334, 4.0689], [9.7134, 4.0689], [9.7134, 4.0489]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "nkongmondo", "nom": "Nkongmondo" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6734, 4.0367], [9.6934, 4.0367],
+          [9.6934, 4.0567], [9.6734, 4.0567], [9.6734, 4.0367]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "ange-raphael", "nom": "Ange Raphaël" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6912, 4.0278], [9.7112, 4.0278],
+          [9.7112, 4.0478], [9.6912, 4.0478], [9.6912, 4.0278]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "brazzaville", "nom": "Brazzaville" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6656, 4.0189], [9.6856, 4.0189],
+          [9.6856, 4.0389], [9.6656, 4.0389], [9.6656, 4.0189]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "mabanda", "nom": "Mabanda" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6523, 4.0612], [9.6723, 4.0612],
+          [9.6723, 4.0812], [9.6523, 4.0812], [9.6523, 4.0612]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "sodiko", "nom": "Sodiko" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.6612, 4.0734], [9.6812, 4.0734],
+          [9.6812, 4.0934], [9.6612, 4.0934], [9.6612, 4.0734]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "yassa", "nom": "Yassa" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.7912, 3.9967], [9.8112, 3.9967],
+          [9.8112, 4.0167], [9.7912, 4.0167], [9.7912, 3.9967]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "japoma", "nom": "Japoma" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [9.8034, 3.9856], [9.8234, 3.9856],
+          [9.8234, 4.0056], [9.8034, 4.0056], [9.8034, 3.9856]
+        ]]
+      }
+    }
+  ]
+}
