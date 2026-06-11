@@ -2,7 +2,7 @@
 
 import { ScoreRisque } from "@/types"
 import { Badge } from "./Badge"
-import { Droplets, AlertTriangle, Clock } from "lucide-react"
+import { Droplets, Clock } from "lucide-react"
 
 interface ScoreCardProps {
   score: ScoreRisque
@@ -10,10 +10,10 @@ interface ScoreCardProps {
 }
 
 const niveauColor = {
-  faible: "var(--risk-faible)",
-  modere: "var(--risk-modere)",
-  eleve: "var(--risk-eleve)",
-  critique: "var(--risk-critique)"
+  faible: "#10B981",
+  modere: "#F59E0B",
+  eleve: "#EF4444",
+  critique: "#7C3AED"
 }
 
 export function ScoreCard({ score, onClick }: ScoreCardProps) {
@@ -31,80 +31,50 @@ export function ScoreCard({ score, onClick }: ScoreCardProps) {
   return (
     <div
       onClick={onClick}
-      className="rounded-xl p-4 cursor-pointer transition-all duration-200 hover:scale-[1.02] animate-fadeIn"
+      className="rounded-xl p-4 cursor-pointer transition-all duration-200 hover:scale-[1.01] hover:shadow-md"
       style={{
         background: "var(--bg-card)",
-        border: `1px solid var(--border)`,
-        boxShadow: "var(--shadow-sm)",
+        border: "1px solid var(--border)",
         borderLeft: `4px solid ${color}`
       }}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <span
-          className="font-heading font-semibold text-sm"
-          style={{ color: "var(--text-primary)" }}
-        >
+        <span className="font-semibold text-sm" style={{ color: "var(--text-primary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           {score.nom}
         </span>
         <Badge niveau={score.niveau} size="sm" />
       </div>
 
       {/* Progress bar */}
-      <div
-        className="w-full h-1.5 rounded-full mb-3"
-        style={{ background: "var(--border)" }}
-      >
+      <div className="w-full h-2 rounded-full mb-3" style={{ background: "var(--border)" }}>
         <div
-          className="h-1.5 rounded-full transition-all duration-700"
-          style={{
-            width: `${score.score}%`,
-            background: color
-          }}
+          className="h-2 rounded-full transition-all duration-700"
+          style={{ width: `${score.score}%`, background: color }}
         />
       </div>
 
-      {/* Score */}
-      <div className="flex items-center justify-between mb-3">
-        <span
-          className="mono text-2xl font-bold"
-          style={{ color }}
-        >
-          {score.score}
-        </span>
-        <span
-          className="text-xs"
-          style={{ color: "var(--text-muted)" }}
-        >
-          / 100
-        </span>
-      </div>
-
-      {/* Stats */}
+      {/* Score + stats */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">
-          <Droplets
-            size={12}
-            style={{ color: "var(--brand)" }}
-          />
-          <span
-            className="mono text-xs"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {score.pluie_6h}mm/6h
+        <div className="flex items-end gap-1">
+          <span className="font-bold text-2xl" style={{ color, fontFamily: "'JetBrains Mono', monospace" }}>
+            {score.score}
           </span>
+          <span className="text-xs mb-0.5" style={{ color: "var(--text-muted)" }}>/100</span>
         </div>
-        <div className="flex items-center gap-1">
-          <Clock
-            size={12}
-            style={{ color: "var(--text-muted)" }}
-          />
-          <span
-            className="text-xs"
-            style={{ color: "var(--text-muted)" }}
-          >
-            {formatTime(score.calculated_at)}
-          </span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            <Droplets size={11} style={{ color: "var(--brand)" }} />
+            <span className="text-xs" style={{ color: "var(--text-secondary)", fontFamily: "'JetBrains Mono', monospace" }}>
+              {score.pluie_6h}mm
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Clock size={11} style={{ color: "var(--text-muted)" }} />
+            <span className="text-xs" style={{ color: "var(--text-muted)" }}>
+              {formatTime(score.calculated_at)}
+            </span>
+          </div>
         </div>
       </div>
     </div>

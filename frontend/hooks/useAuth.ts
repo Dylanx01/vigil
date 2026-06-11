@@ -9,15 +9,18 @@ export function useAuth() {
   const [role, setRole] = useState<"citoyen" | "admin" | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Récupère le token depuis localStorage au montage
-    const savedToken = localStorage.getItem("vigil_token")
-    const savedRole = localStorage.getItem("vigil_role") as "citoyen" | "admin" | null
-    if (savedToken && savedRole) {
-      setToken(savedToken)
-      setRole(savedRole)
-    }
+    setMounted(true)
+    try {
+      const savedToken = localStorage.getItem("vigil_token")
+      const savedRole = localStorage.getItem("vigil_role") as "citoyen" | "admin" | null
+      if (savedToken && savedRole) {
+        setToken(savedToken)
+        setRole(savedRole)
+      }
+    } catch {}
   }, [])
 
   const loginAdmin = async (email: string, password: string) => {
@@ -27,8 +30,10 @@ export function useAuth() {
       const data: AuthToken = await authAPI.adminLogin({ email, password })
       setToken(data.access_token)
       setRole("admin")
-      localStorage.setItem("vigil_token", data.access_token)
-      localStorage.setItem("vigil_role", "admin")
+      try {
+        localStorage.setItem("vigil_token", data.access_token)
+        localStorage.setItem("vigil_role", "admin")
+      } catch {}
       return data
     } catch (err: any) {
       setError(err.message)
@@ -58,8 +63,10 @@ export function useAuth() {
       const data: AuthToken = await authAPI.citoyenVerify({ telephone, otp })
       setToken(data.access_token)
       setRole("citoyen")
-      localStorage.setItem("vigil_token", data.access_token)
-      localStorage.setItem("vigil_role", "citoyen")
+      try {
+        localStorage.setItem("vigil_token", data.access_token)
+        localStorage.setItem("vigil_role", "citoyen")
+      } catch {}
       return data
     } catch (err: any) {
       setError(err.message)
@@ -72,8 +79,10 @@ export function useAuth() {
   const logout = () => {
     setToken(null)
     setRole(null)
-    localStorage.removeItem("vigil_token")
-    localStorage.removeItem("vigil_role")
+    try {
+      localStorage.removeItem("vigil_token")
+      localStorage.removeItem("vigil_role")
+    } catch {}
   }
 
   return {
@@ -81,6 +90,7 @@ export function useAuth() {
     role,
     loading,
     error,
+    mounted,
     isAuthenticated: !!token,
     loginAdmin,
     registerCitoyen,

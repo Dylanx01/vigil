@@ -22,11 +22,9 @@ export function Sidebar() {
         borderRight: "1px solid rgba(255,255,255,0.06)"
       }}
     >
-      {/* Navigation */}
       <nav className="flex-1 p-3 flex flex-col gap-1">
         {navItems.map(({ href, icon: Icon, label }) => {
           const active = pathname === href
-
           return (
             <Link
               key={href}
@@ -36,18 +34,6 @@ export function Sidebar() {
                 background: active ? "rgba(14,165,233,0.15)" : "transparent",
                 color: active ? "var(--brand)" : "var(--text-muted)"
               }}
-              onMouseEnter={e => {
-                if (!active) {
-                  e.currentTarget.style.background = "var(--bg-sidebar-hover)"
-                  e.currentTarget.style.color = "var(--text-inverse)"
-                }
-              }}
-              onMouseLeave={e => {
-                if (!active) {
-                  e.currentTarget.style.background = "transparent"
-                  e.currentTarget.style.color = "var(--text-muted)"
-                }
-              }}
             >
               <Icon size={18} />
               <span className="text-sm font-medium">{label}</span>
@@ -56,7 +42,6 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Footer */}
       <div
         className="p-4 border-t"
         style={{ borderColor: "rgba(255,255,255,0.06)" }}
@@ -69,18 +54,8 @@ export function Sidebar() {
             <Shield size={12} color="white" />
           </div>
           <div>
-            <p
-              className="text-xs font-semibold"
-              style={{ color: "var(--text-inverse)" }}
-            >
-              Vigil
-            </p>
-            <p
-              className="text-xs"
-              style={{ color: "var(--text-muted)" }}
-            >
-              v1.0.0
-            </p>
+            <p className="text-xs font-semibold text-white">Vigil</p>
+            <p className="text-xs" style={{ color: "var(--text-muted)" }}>v1.0.0</p>
           </div>
         </div>
       </div>

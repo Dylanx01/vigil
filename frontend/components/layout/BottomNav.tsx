@@ -24,15 +24,12 @@ export function BottomNav() {
     >
       {navItems.map(({ href, icon: Icon, label }) => {
         const active = pathname === href
-
         return (
           <Link
             key={href}
             href={href}
             className="flex flex-col items-center gap-1 px-4 py-2 transition-colors"
-            style={{
-              color: active ? "var(--brand)" : "var(--text-muted)"
-            }}
+            style={{ color: active ? "var(--brand)" : "var(--text-muted)" }}
           >
             <Icon size={20} />
             <span className="text-xs font-medium">{label}</span>
