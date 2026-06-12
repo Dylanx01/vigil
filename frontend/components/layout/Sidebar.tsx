@@ -3,16 +3,18 @@
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { Map, Bell, AlertTriangle, BarChart2, Shield } from "lucide-react"
-
-const navItems = [
-  { href: "/", icon: Map, label: "Carte" },
-  { href: "/alertes", icon: Bell, label: "Alertes" },
-  { href: "/signaler", icon: AlertTriangle, label: "Signaler" },
-  { href: "/stats", icon: BarChart2, label: "Statistiques" },
-]
+import { useLanguage } from "@/hooks/useLanguage"
 
 export function Sidebar() {
   const pathname = usePathname()
+  const { t } = useLanguage()
+
+  const navItems = [
+    { href: "/", icon: Map, label: t.nav.carte },
+    { href: "/alertes", icon: Bell, label: t.nav.alertes },
+    { href: "/signaler", icon: AlertTriangle, label: t.nav.signaler },
+    { href: "/stats", icon: BarChart2, label: t.nav.stats },
+  ]
 
   return (
     <aside

@@ -4,18 +4,20 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { Map, Bell, AlertTriangle, BarChart2, User } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
+import { useLanguage } from "@/hooks/useLanguage"
 
 export function BottomNav() {
   const pathname = usePathname()
   const { isAuthenticated, role, mounted } = useAuth()
+  const { t } = useLanguage()
 
   const navItems = [
-    { href: "/", icon: Map, label: "Carte" },
-    { href: "/alertes", icon: Bell, label: "Alertes" },
-    { href: "/signaler", icon: AlertTriangle, label: "Signaler" },
-    { href: "/stats", icon: BarChart2, label: "Stats" },
+    { href: "/", icon: Map, label: t.nav.carte },
+    { href: "/alertes", icon: Bell, label: t.nav.alertes },
+    { href: "/signaler", icon: AlertTriangle, label: t.nav.signaler },
+    { href: "/stats", icon: BarChart2, label: t.nav.stats },
     ...(mounted && isAuthenticated && role === "citoyen"
-      ? [{ href: "/profil", icon: User, label: "Profil" }]
+      ? [{ href: "/profil", icon: User, label: t.nav.profil }]
       : []
     ),
   ]

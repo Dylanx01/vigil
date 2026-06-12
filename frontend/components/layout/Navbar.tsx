@@ -1,8 +1,10 @@
 "use client"
 
 import { LiveBadge } from "@/components/ui/LiveBadge"
+import { LangSwitcher } from "@/components/ui/LangSwitcher"
 import { Shield, User, LogOut } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
+import { useLanguage } from "@/hooks/useLanguage"
 import Link from "next/link"
 
 interface NavbarProps {
@@ -11,6 +13,7 @@ interface NavbarProps {
 
 export function Navbar({ lastUpdate }: NavbarProps) {
   const { isAuthenticated, role, logout, mounted } = useAuth()
+  const { t } = useLanguage()
 
   return (
     <nav
@@ -41,19 +44,23 @@ export function Navbar({ lastUpdate }: NavbarProps) {
 
       {/* Actions droite */}
       <div className="flex items-center gap-3">
+
+        {/* Switcher langue */}
+        <LangSwitcher />
+
         {mounted && isAuthenticated && role === "citoyen" ? (
           <div className="flex items-center gap-2">
             <Link
               href="/profil"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium"
               style={{ background: "rgba(14,165,233,0.15)", color: "var(--brand)" }}
             >
               <User size={12} />
-              Mon profil
+              {t.profil.titre}
             </Link>
             <button
               onClick={logout}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium"
               style={{ background: "rgba(255,255,255,0.06)", color: "var(--text-muted)" }}
             >
               <LogOut size={12} />
@@ -63,17 +70,17 @@ export function Navbar({ lastUpdate }: NavbarProps) {
           <div className="flex items-center gap-2">
             <Link
               href="/connexion"
-              className="text-xs font-medium px-3 py-1.5 rounded-lg transition-all"
+              className="text-xs font-medium px-3 py-1.5 rounded-lg"
               style={{ background: "rgba(14,165,233,0.15)", color: "var(--brand)" }}
             >
-              Se connecter
+              {t.nav.connexion}
             </Link>
             <Link
               href="/mairie/login"
-              className="text-xs font-medium transition-colors"
+              className="text-xs font-medium"
               style={{ color: "var(--text-muted)" }}
             >
-              Portail mairie
+              {t.nav.portailMairie}
             </Link>
           </div>
         )}
