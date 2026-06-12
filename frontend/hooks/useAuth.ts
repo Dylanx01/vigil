@@ -56,6 +56,19 @@ export function useAuth() {
     }
   }
 
+  const loginCitoyen = async (telephone: string) => {
+    setLoading(true)
+    setError(null)
+    try {
+      await authAPI.citoyenLogin({ telephone })
+    } catch (err: any) {
+      setError(err.message)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const verifyCitoyen = async (telephone: string, otp: string) => {
     setLoading(true)
     setError(null)
@@ -93,6 +106,7 @@ export function useAuth() {
     mounted,
     isAuthenticated: !!token,
     loginAdmin,
+    loginCitoyen,
     registerCitoyen,
     verifyCitoyen,
     logout
