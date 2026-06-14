@@ -26,7 +26,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "https://vigil-frontend-beige.vercel.app",
-        "https://vigil.vercel.app"
+        "https://vigil.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
