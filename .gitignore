@@ -22,3 +22,6 @@ Thumbs.db
 
 # VSCode
 .vscode/settings.json
+
+ngrok.exe
+*.exe
