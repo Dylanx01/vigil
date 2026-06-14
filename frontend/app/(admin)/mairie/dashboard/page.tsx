@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/hooks/useAuth"
 import { adminAPI } from "@/lib/api"
@@ -9,6 +10,9 @@ import {
   Shield, Users, AlertTriangle, MessageSquare,
   Radio, Download, LogOut, Activity, Map
 } from "lucide-react"
+
+const capitalizeQuartier = (id: string) =>
+  id.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
 export default function MairieDashboardPage() {
   const { token, role, logout, mounted } = useAuth()
@@ -39,6 +43,7 @@ export default function MairieDashboardPage() {
       setStats(statsData)
       setHeatmap(heatmapData.heatmap)
       setSignalements(signalementsData.signalements)
+      toast.success("Données actualisées")
     } catch {
       router.push("/mairie/login")
     } finally {
@@ -51,9 +56,12 @@ export default function MairieDashboardPage() {
     setAlerteLoading(quartier_id)
     try {
       await adminAPI.declencherAlerte({ quartier_id }, token)
-      alert("Alerte déclenchée avec succès")
+      toast.success(`Alerte déclenchée — ${capitalizeQuartier(quartier_id)}`, {
+        icon: '🚨',
+        duration: 5000,
+      })
     } catch {
-      alert("Erreur lors du déclenchement")
+      toast.error("Erreur lors du déclenchement")
     } finally {
       setAlerteLoading(null)
     }
@@ -65,6 +73,7 @@ export default function MairieDashboardPage() {
       ? adminAPI.exportSignalements(token)
       : adminAPI.exportScores(token)
     window.open(`${url}`, "_blank")
+    toast.success("Export CSV en cours...")
   }
 
   const handleLogout = () => {
@@ -110,7 +119,7 @@ export default function MairieDashboardPage() {
             Vigil
           </span>
           <span
-            className="ml-2 px-2 py-0.5 rounded text-xs font-medium"
+            className="ml-2 px-2 py-0.5 rounded-full text-xs font-medium"
             style={{ background: "rgba(14,165,233,0.15)", color: "var(--brand)" }}
           >
             Portail Mairie
@@ -120,7 +129,7 @@ export default function MairieDashboardPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={fetchData}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium"
+            className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
             style={{ background: "rgba(255,255,255,0.06)", color: "var(--text-muted)" }}
           >
             Actualiser
@@ -139,7 +148,7 @@ export default function MairieDashboardPage() {
       <div className="pt-14 px-6 py-6 max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-8 pt-4">
           <h1
             className="text-2xl font-bold mb-1"
             style={{ color: "var(--text-primary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
@@ -162,11 +171,13 @@ export default function MairieDashboardPage() {
             ].map(({ label, value, icon: Icon, color }) => (
               <div
                 key={label}
-                className="rounded-xl p-5"
-                style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+                className="rounded-2xl p-5"
+                style={{ background: "var(--bg-card)", border: "1px solid var(--border)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <Icon size={14} style={{ color }} />
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${color}15` }}>
+                    <Icon size={14} style={{ color }} />
+                  </div>
                   <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>
                     {label}
                   </span>
@@ -186,8 +197,8 @@ export default function MairieDashboardPage() {
 
           {/* Heatmap */}
           <div
-            className="rounded-xl p-5"
-            style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+            className="rounded-2xl p-5"
+            style={{ background: "var(--bg-card)", border: "1px solid var(--border)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -202,24 +213,24 @@ export default function MairieDashboardPage() {
               <button
                 onClick={() => handleExport("scores")}
                 className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium"
-                style={{ background: "var(--bg-primary)", color: "var(--text-secondary)" }}
+                style={{ background: "var(--bg-primary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
               >
                 <Download size={11} />
                 CSV
               </button>
             </div>
-            <div className="flex flex-col gap-2 max-h-80 overflow-y-auto">
+            <div className="flex flex-col gap-1.5 max-h-80 overflow-y-auto">
               {heatmap
                 .sort((a, b) => b.score - a.score)
                 .map(q => (
                   <div
                     key={q.quartier_id}
-                    className="flex items-center justify-between py-2 px-3 rounded-lg"
+                    className="flex items-center justify-between py-2.5 px-3 rounded-xl"
                     style={{ background: "var(--bg-primary)" }}
                   >
                     <div className="flex items-center gap-2">
                       <div
-                        className="w-2 h-2 rounded-full"
+                        className="w-2 h-2 rounded-full flex-shrink-0"
                         style={{
                           background: q.niveau === "critique" ? "var(--risk-critique)"
                             : q.niveau === "eleve" ? "var(--risk-eleve)"
@@ -227,14 +238,14 @@ export default function MairieDashboardPage() {
                             : "var(--risk-faible)"
                         }}
                       />
-                      <span className="text-sm" style={{ color: "var(--text-primary)" }}>
+                      <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
                         {q.nom}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <Badge niveau={q.niveau} size="sm" />
                       <span
-                        className="text-sm font-bold"
+                        className="text-sm font-bold w-8 text-right"
                         style={{ color: "var(--text-secondary)", fontFamily: "'JetBrains Mono', monospace" }}
                       >
                         {q.score}
@@ -242,7 +253,7 @@ export default function MairieDashboardPage() {
                       <button
                         onClick={() => handleAlerte(q.quartier_id)}
                         disabled={alerteLoading === q.quartier_id}
-                        className="px-2 py-1 rounded text-xs font-medium"
+                        className="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all"
                         style={{
                           background: "var(--risk-eleve-bg)",
                           color: "var(--risk-eleve)",
@@ -259,8 +270,8 @@ export default function MairieDashboardPage() {
 
           {/* Signalements */}
           <div
-            className="rounded-xl p-5"
-            style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+            className="rounded-2xl p-5"
+            style={{ background: "var(--bg-card)", border: "1px solid var(--border)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -275,13 +286,13 @@ export default function MairieDashboardPage() {
               <button
                 onClick={() => handleExport("signalements")}
                 className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium"
-                style={{ background: "var(--bg-primary)", color: "var(--text-secondary)" }}
+                style={{ background: "var(--bg-primary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
               >
                 <Download size={11} />
                 CSV
               </button>
             </div>
-            <div className="flex flex-col gap-2 max-h-80 overflow-y-auto">
+            <div className="flex flex-col gap-1.5 max-h-80 overflow-y-auto">
               {signalements.length === 0 ? (
                 <p className="text-sm text-center py-8" style={{ color: "var(--text-muted)" }}>
                   Aucun signalement dans les 24 dernières heures
@@ -289,28 +300,29 @@ export default function MairieDashboardPage() {
               ) : signalements.map(s => (
                 <div
                   key={s.id}
-                  className="flex items-center justify-between py-2 px-3 rounded-lg"
+                  className="flex items-center justify-between py-2.5 px-3 rounded-xl"
                   style={{ background: "var(--bg-primary)" }}
                 >
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-2 h-2 rounded-full"
+                      className="w-2 h-2 rounded-full flex-shrink-0"
                       style={{ background: s.valide ? "var(--risk-eleve)" : "var(--text-muted)" }}
                     />
                     <div>
                       <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
-                        {s.quartier_id}
+                        {capitalizeQuartier(s.quartier_id)}
                       </span>
                       <span className="text-xs ml-2" style={{ color: "var(--text-muted)" }}>
-                        Niveau {s.niveau_eau}
+                        — Niveau {s.niveau_eau}
                       </span>
                     </div>
                   </div>
                   <span
-                    className="text-xs px-2 py-0.5 rounded-full"
+                    className="text-xs px-2.5 py-0.5 rounded-full font-medium"
                     style={{
-                      background: s.valide ? "var(--risk-eleve-bg)" : "var(--bg-primary)",
-                      color: s.valide ? "var(--risk-eleve)" : "var(--text-muted)"
+                      background: s.valide ? "var(--risk-eleve-bg)" : "#F8FAFC",
+                      color: s.valide ? "var(--risk-eleve)" : "var(--text-muted)",
+                      border: s.valide ? "1px solid var(--risk-eleve)" : "1px solid var(--border)"
                     }}
                   >
                     {s.valide ? "Confirmé" : "En attente"}
@@ -324,11 +336,12 @@ export default function MairieDashboardPage() {
         {/* Zones en alerte */}
         {stats?.quartiers_alerte_detail?.length > 0 && (
           <div
-            className="rounded-xl p-5"
+            className="rounded-2xl p-5"
             style={{
               background: "var(--bg-card)",
               border: "1px solid var(--border)",
-              borderLeft: "4px solid var(--risk-eleve)"
+              borderLeft: "4px solid var(--risk-eleve)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.04)"
             }}
           >
             <div className="flex items-center gap-2 mb-4">
@@ -349,15 +362,15 @@ export default function MairieDashboardPage() {
                 >
                   <div>
                     <p
-                      className="text-sm font-semibold"
+                      className="text-sm font-bold mb-1"
                       style={{ color: "var(--text-primary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
-                      {q.quartier_id}
+                      {capitalizeQuartier(q.quartier_id)}
                     </p>
                     <Badge niveau={q.niveau} size="sm" />
                   </div>
                   <span
-                    className="font-bold text-lg"
+                    className="font-bold text-2xl"
                     style={{ color: "var(--risk-eleve)", fontFamily: "'JetBrains Mono', monospace" }}
                   >
                     {q.score}

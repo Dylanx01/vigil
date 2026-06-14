@@ -6,16 +6,34 @@ import { BottomNav } from "@/components/layout/BottomNav"
 import { Badge } from "@/components/ui/Badge"
 import { useScores } from "@/hooks/useScores"
 import { useSignalements } from "@/hooks/useSignalements"
-import { AlertTriangle, Droplets, Clock, Bell } from "lucide-react"
+import { AlertTriangle, Droplets, Clock, Bell, CheckCircle, AlertCircle } from "lucide-react"
+
+const capitalizeQuartier = (id: string) =>
+  id.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+
+const niveauColor: Record<string, string> = {
+  faible: "#10B981",
+  modere: "#F59E0B",
+  eleve: "#EF4444",
+  critique: "#7C3AED"
+}
+
+const niveauBg: Record<string, string> = {
+  faible: "#ECFDF5",
+  modere: "#FFFBEB",
+  eleve: "#FEF2F2",
+  critique: "#F5F3FF"
+}
 
 export default function AlertesPage() {
   const { scores, loading: loadingScores, lastUpdate } = useScores()
-  const { signalements, loading: loadingSignalements } = useSignalements()
+  const { signalements } = useSignalements()
 
   const quartiers_alerte = scores.filter(s => s.niveau === "eleve" || s.niveau === "critique")
   const quartiers_modere = scores.filter(s => s.niveau === "modere")
 
   const formatTime = (dateStr: string) => {
+    if (!dateStr) return "—"
     const date = new Date(dateStr)
     const diff = Math.floor((Date.now() - date.getTime()) / 60000)
     if (diff < 1) return "À l'instant"
@@ -24,7 +42,7 @@ export default function AlertesPage() {
   }
 
   return (
-    <div style={{ background: "var(--bg-primary)", minHeight: "100vh" }}>
+    <div style={{ background: "#F0F4FF", minHeight: "100vh" }}>
       <Navbar lastUpdate={lastUpdate} />
       <Sidebar />
 
@@ -32,84 +50,130 @@ export default function AlertesPage() {
         <div className="max-w-3xl mx-auto px-4 py-6">
 
           {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Alertes actives
-            </h1>
-            <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+          <div className="mb-6 pt-2">
+            <div className="flex items-center gap-2 mb-1">
+              <h1
+                className="text-2xl font-bold"
+                style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
+                Alertes actives
+              </h1>
+              {quartiers_alerte.length > 0 && (
+                <span
+                  className="px-2.5 py-0.5 rounded-full text-xs font-bold"
+                  style={{ background: "#FEF2F2", color: "#EF4444" }}
+                >
+                  {quartiers_alerte.length}
+                </span>
+              )}
+            </div>
+            <p className="text-sm" style={{ color: "#64748B" }}>
               Zones à risque élevé ou critique en ce moment
             </p>
           </div>
 
           {/* Alertes critiques et élevées */}
           {loadingScores ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="w-6 h-6 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "var(--brand)", borderTopColor: "transparent" }} />
+            <div className="flex items-center justify-center py-16">
+              <div
+                className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
+                style={{ borderColor: "#0EA5E9", borderTopColor: "transparent" }}
+              />
             </div>
           ) : quartiers_alerte.length === 0 ? (
             <div
-              className="rounded-xl p-8 text-center mb-6"
-              style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+              className="rounded-2xl p-10 text-center mb-6"
+              style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}
             >
-              <Bell size={32} className="mx-auto mb-3" style={{ color: "var(--risk-faible)" }} />
-              <p className="font-semibold mb-1" style={{ color: "var(--text-primary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <div
+                className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                style={{ background: "#ECFDF5" }}
+              >
+                <Bell size={26} style={{ color: "#10B981" }} />
+              </div>
+              <p
+                className="font-bold text-lg mb-1"
+                style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
                 Aucune alerte active
               </p>
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+              <p className="text-sm" style={{ color: "#64748B" }}>
                 Tous les quartiers sont sous surveillance normale
               </p>
             </div>
           ) : (
-            <div className="flex flex-col gap-3 mb-6">
+            <div className="flex flex-col gap-3 mb-8">
               {quartiers_alerte
                 .sort((a, b) => b.score - a.score)
                 .map(score => (
                   <div
                     key={score.quartier_id}
-                    className="rounded-xl p-5"
+                    className="rounded-2xl p-5"
                     style={{
-                      background: "var(--bg-card)",
-                      border: "1px solid var(--border)",
-                      borderLeft: `4px solid ${score.niveau === "critique" ? "var(--risk-critique)" : "var(--risk-eleve)"}`
+                      background: "#FFFFFF",
+                      border: "1px solid #E2E8F0",
+                      borderLeft: `4px solid ${niveauColor[score.niveau]}`,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.04)"
                     }}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <AlertTriangle size={16} style={{ color: score.niveau === "critique" ? "var(--risk-critique)" : "var(--risk-eleve)" }} />
-                        <span className="font-semibold" style={{ color: "var(--text-primary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                        <div
+                          className="w-8 h-8 rounded-xl flex items-center justify-center"
+                          style={{ background: niveauBg[score.niveau] }}
+                        >
+                          <AlertTriangle size={15} style={{ color: niveauColor[score.niveau] }} />
+                        </div>
+                        <span
+                          className="font-bold text-base"
+                          style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                        >
                           {score.nom}
                         </span>
                       </div>
                       <Badge niveau={score.niveau} size="sm" />
                     </div>
 
-                    <div className="w-full h-2 rounded-full mb-3" style={{ background: "var(--border)" }}>
+                    <div className="w-full h-2 rounded-full mb-4" style={{ background: "#F0F4FF" }}>
                       <div
-                        className="h-2 rounded-full"
+                        className="h-2 rounded-full transition-all duration-700"
                         style={{
                           width: `${score.score}%`,
-                          background: score.niveau === "critique" ? "var(--risk-critique)" : "var(--risk-eleve)"
+                          background: niveauColor[score.niveau]
                         }}
                       />
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-xl" style={{
-                        color: score.niveau === "critique" ? "var(--risk-critique)" : "var(--risk-eleve)",
-                        fontFamily: "'JetBrains Mono', monospace"
-                      }}>
-                        {score.score}<span className="text-xs font-normal ml-1" style={{ color: "var(--text-muted)" }}>/100</span>
-                      </span>
+                      <div className="flex items-end gap-1">
+                        <span
+                          className="font-bold text-3xl"
+                          style={{
+                            color: niveauColor[score.niveau],
+                            fontFamily: "'JetBrains Mono', monospace",
+                            lineHeight: 1
+                          }}
+                        >
+                          {score.score}
+                        </span>
+                        <span className="text-xs mb-1" style={{ color: "#94A3B8" }}>/100</span>
+                      </div>
                       <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-1">
-                          <Droplets size={12} style={{ color: "var(--brand)" }} />
-                          <span className="text-xs" style={{ color: "var(--text-secondary)", fontFamily: "'JetBrains Mono', monospace" }}>
+                        <div
+                          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
+                          style={{ background: "#EFF6FF" }}
+                        >
+                          <Droplets size={11} style={{ color: "#0EA5E9" }} />
+                          <span
+                            className="text-xs font-semibold"
+                            style={{ color: "#0EA5E9", fontFamily: "'JetBrains Mono', monospace" }}
+                          >
                             {score.pluie_6h}mm/6h
                           </span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Clock size={12} style={{ color: "var(--text-muted)" }} />
-                          <span className="text-xs" style={{ color: "var(--text-muted)" }}>
+                          <Clock size={11} style={{ color: "#94A3B8" }} />
+                          <span className="text-xs" style={{ color: "#94A3B8" }}>
                             {formatTime(score.calculated_at || "")}
                           </span>
                         </div>
@@ -122,66 +186,104 @@ export default function AlertesPage() {
 
           {/* Quartiers modérés */}
           {quartiers_modere.length > 0 && (
-            <>
-              <h2 className="text-sm font-semibold mb-3" style={{ color: "var(--text-secondary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                SURVEILLANCE RENFORCÉE
-              </h2>
+            <div className="mb-8">
+              <div className="flex items-center gap-2 mb-3">
+                <AlertCircle size={14} style={{ color: "#F59E0B" }} />
+                <h2
+                  className="text-xs font-bold tracking-wider"
+                  style={{ color: "#94A3B8", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                >
+                  SURVEILLANCE RENFORCÉE
+                </h2>
+              </div>
               <div className="flex flex-col gap-2">
                 {quartiers_modere
                   .sort((a, b) => b.score - a.score)
                   .map(score => (
                     <div
                       key={score.quartier_id}
-                      className="rounded-xl p-4 flex items-center justify-between"
+                      className="rounded-xl p-3.5 flex items-center justify-between"
                       style={{
-                        background: "var(--bg-card)",
-                        border: "1px solid var(--border)",
-                        borderLeft: "4px solid var(--risk-modere)"
+                        background: "#FFFFFF",
+                        border: "1px solid #E2E8F0",
+                        borderLeft: "3px solid #F59E0B"
                       }}
                     >
                       <div className="flex items-center gap-3">
-                        <span className="font-medium text-sm" style={{ color: "var(--text-primary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                        <span
+                          className="font-semibold text-sm"
+                          style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                        >
                           {score.nom}
                         </span>
                         <Badge niveau={score.niveau} size="sm" />
                       </div>
-                      <span className="font-bold text-sm" style={{ color: "var(--risk-modere)", fontFamily: "'JetBrains Mono', monospace" }}>
+                      <span
+                        className="font-bold text-sm"
+                        style={{ color: "#F59E0B", fontFamily: "'JetBrains Mono', monospace" }}
+                      >
                         {score.score}/100
                       </span>
                     </div>
                   ))}
               </div>
-            </>
+            </div>
           )}
 
           {/* Signalements récents */}
           {signalements.length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-sm font-semibold mb-3" style={{ color: "var(--text-secondary)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                SIGNALEMENTS CITOYENS RÉCENTS
-              </h2>
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <CheckCircle size={14} style={{ color: "#64748B" }} />
+                <h2
+                  className="text-xs font-bold tracking-wider"
+                  style={{ color: "#94A3B8", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                >
+                  SIGNALEMENTS CITOYENS RÉCENTS
+                </h2>
+              </div>
               <div className="flex flex-col gap-2">
                 {signalements.slice(0, 5).map(s => (
                   <div
                     key={s.id}
-                    className="rounded-xl p-4 flex items-center justify-between"
+                    className="rounded-xl p-3.5 flex items-center justify-between"
                     style={{
-                      background: "var(--bg-card)",
-                      border: "1px solid var(--border)"
+                      background: "#FFFFFF",
+                      border: "1px solid #E2E8F0"
                     }}
                   >
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-2 h-2 rounded-full"
-                        style={{ background: s.valide ? "var(--risk-eleve)" : "var(--text-muted)" }}
+                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ background: s.valide ? "#EF4444" : "#CBD5E1" }}
                       />
-                      <span className="text-sm" style={{ color: "var(--text-primary)" }}>
-                        {s.quartier_id} — Niveau {s.niveau_eau}
+                      <div>
+                        <span
+                          className="text-sm font-semibold"
+                          style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                        >
+                          {capitalizeQuartier(s.quartier_id)}
+                        </span>
+                        <span className="text-xs ml-2" style={{ color: "#94A3B8" }}>
+                          — Niveau {s.niveau_eau}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="text-xs px-2 py-0.5 rounded-full font-medium"
+                        style={{
+                          background: s.valide ? "#FEF2F2" : "#F8FAFC",
+                          color: s.valide ? "#EF4444" : "#94A3B8",
+                          border: s.valide ? "1px solid #EF4444" : "1px solid #E2E8F0"
+                        }}
+                      >
+                        {s.valide ? "Confirmé" : "En attente"}
+                      </span>
+                      <span className="text-xs" style={{ color: "#94A3B8" }}>
+                        {formatTime(s.created_at)}
                       </span>
                     </div>
-                    <span className="text-xs" style={{ color: "var(--text-muted)" }}>
-                      {formatTime(s.created_at)}
-                    </span>
                   </div>
                 ))}
               </div>
