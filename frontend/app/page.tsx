@@ -7,9 +7,13 @@ import { Navbar } from "@/components/layout/Navbar"
 import { Sidebar } from "@/components/layout/Sidebar"
 import { MobileDrawer } from "@/components/layout/MobileDrawer"
 import { Badge } from "@/components/ui/Badge"
+import { Card } from "@/components/ui/Card"
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber"
+import { SkeletonRow } from "@/components/ui/SkeletonRow"
+import { StatusMessages } from "@/components/ui/StatusMessages"
 import { useScores } from "@/hooks/useScores"
 import { ScoreRisque } from "@/types"
-import { Droplets, Clock, X, Shield, ChevronUp, AlertTriangle, Search, Navigation, Menu } from "lucide-react"
+import { Droplets, Clock, X, ChevronUp, AlertTriangle, Search, Navigation, Menu } from "lucide-react"
 
 const niveauColor: Record<string, string> = {
   faible: "#10B981",
@@ -82,10 +86,10 @@ export default function HomePage() {
 
       {/* Carte plein écran */}
       <div className="absolute inset-0 md:left-56 md:top-14 md:right-80">
-      <MapVigil
-  scores={scores}
-  userLocation={userLocation ? { lng: userLocation[0], lat: userLocation[1] } : null}
-  onQuartierClick={(score) => {
+        <MapVigil
+          scores={scores}
+          userLocation={userLocation ? { lng: userLocation[0], lat: userLocation[1] } : null}
+          onQuartierClick={(score) => {
             setSelected(score)
             setSheetExpanded(false)
           }}
@@ -94,13 +98,12 @@ export default function HomePage() {
 
       {/* Bouton géolocalisation */}
       <button
-  onClick={handleGeolocate}
-  disabled={locating}
-  className="absolute z-40 flex items-center justify-center transition-all bottom-64 right-4 md:bottom-40 md:right-[336px]"
-  style={{
-    width: "44px",
+        onClick={handleGeolocate}
+        disabled={locating}
+        className="absolute z-40 flex items-center justify-center transition-all bottom-64 right-4 md:bottom-40 md:right-[336px] rounded-squircle"
+        style={{
+          width: "44px",
           height: "44px",
-          borderRadius: "14px",
           background: "rgba(255,255,255,0.95)",
           boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
           border: "1px solid rgba(255,255,255,0.8)"
@@ -120,7 +123,7 @@ export default function HomePage() {
         <div className="flex items-start gap-2 mx-3 mt-12">
           {/* Pill info Vigil */}
           <div
-            className="flex-1 rounded-2xl overflow-hidden"
+            className="flex-1 rounded-squircle-lg overflow-hidden"
             style={{
               background: "rgba(255,255,255,0.92)",
               backdropFilter: "blur(24px)",
@@ -130,12 +133,9 @@ export default function HomePage() {
           >
             <div className="flex items-center justify-between px-4 py-3">
               <div className="flex items-center gap-2.5">
-              <img src="/logo.svg" alt="Vigil" width={32} height={32} />
+                <img src="/logo.svg" alt="Vigil" width={32} height={32} />
                 <div>
-                  <span
-                    className="font-bold text-sm block leading-none"
-                    style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                  >
+                  <span className="font-bold text-sm block leading-none font-heading" style={{ color: "#0F172A" }}>
                     Vigil
                   </span>
                   <span className="text-xs" style={{ color: "#94A3B8" }}>Douala</span>
@@ -145,21 +145,21 @@ export default function HomePage() {
               <div className="flex items-center gap-2">
                 {critiqueCount > 0 && (
                   <div
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-squircle animate-breathe"
                     style={{ background: "#F5F3FF", border: "1px solid #DDD6FE" }}
                   >
                     <AlertTriangle size={11} color="#7C3AED" />
-                    <span className="text-xs font-bold" style={{ color: "#7C3AED" }}>
+                    <span className="text-xs font-bold font-mono" style={{ color: "#7C3AED" }}>
                       {critiqueCount} critique{critiqueCount > 1 ? "s" : ""}
                     </span>
                   </div>
                 )}
                 <div
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-squircle"
                   style={{ background: "#ECFDF5", border: "1px solid #A7F3D0" }}
                 >
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-medium" style={{ color: "#059669" }}>
+                  <span className="text-xs font-medium font-mono" style={{ color: "#059669" }}>
                     {lastUpdate
                       ? lastUpdate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
                       : "Live"
@@ -173,7 +173,7 @@ export default function HomePage() {
           {/* Bouton hamburger flottant */}
           <button
             onClick={() => setDrawerOpen(true)}
-            className="relative flex-shrink-0 flex items-center justify-center rounded-2xl transition-all active:scale-90"
+            className="relative flex-shrink-0 flex items-center justify-center rounded-squircle-lg transition-all active:scale-90"
             style={{
               width: "52px",
               height: "52px",
@@ -201,11 +201,11 @@ export default function HomePage() {
       {/* ── MOBILE ── Fiche quartier sélectionné */}
       {selected && !sheetExpanded && (
         <div
-          className="absolute left-3 right-3 z-40 md:hidden"
+          className="absolute left-3 right-3 z-40 md:hidden animate-fadeInUp"
           style={{ bottom: "84px" }}
         >
           <div
-            className="rounded-2xl overflow-hidden"
+            className="rounded-squircle-lg overflow-hidden"
             style={{
               background: "rgba(255,255,255,0.97)",
               backdropFilter: "blur(24px)",
@@ -220,17 +220,14 @@ export default function HomePage() {
             <div className="p-5">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h2
-                    className="text-xl font-bold mb-1"
-                    style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                  >
+                  <h2 className="text-xl font-bold mb-1 font-heading" style={{ color: "#0F172A" }}>
                     {selected.nom}
                   </h2>
                   <div
                     className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold"
                     style={{ background: niveauBg[selected.niveau], color: niveauColor[selected.niveau] }}
                   >
-                    <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: niveauColor[selected.niveau] }} />
+                    <div className={`w-1.5 h-1.5 rounded-full ${selected.niveau === "critique" ? "animate-breathe" : "animate-pulse"}`} style={{ background: niveauColor[selected.niveau] }} />
                     {niveauLabel[selected.niveau]}
                   </div>
                 </div>
@@ -244,18 +241,17 @@ export default function HomePage() {
               </div>
 
               <div className="flex items-end gap-2 mb-3">
-                <span
+                <AnimatedNumber
+                  value={selected.score}
+                  className="font-mono"
                   style={{
-                    fontFamily: "'JetBrains Mono', monospace",
                     fontSize: "4rem",
                     lineHeight: 1,
                     color: niveauColor[selected.niveau],
                     fontWeight: 700,
                     letterSpacing: "-0.04em"
                   }}
-                >
-                  {selected.score.toFixed(0)}
-                </span>
+                />
                 <span className="text-lg mb-2" style={{ color: "#94A3B8" }}>/100</span>
               </div>
 
@@ -272,16 +268,9 @@ export default function HomePage() {
                   { label: "Pluie 24h", value: `${selected.pluie_24h}mm` },
                   { label: "Mis à jour", value: formatTime(selected.calculated_at) },
                 ].map(({ label, value }) => (
-                  <div
-                    key={label}
-                    className="rounded-xl p-3 text-center"
-                    style={{ background: niveauBg[selected.niveau] }}
-                  >
+                  <div key={label} className="rounded-squircle p-3 text-center" style={{ background: niveauBg[selected.niveau] }}>
                     <p className="text-xs mb-1" style={{ color: "#94A3B8" }}>{label}</p>
-                    <p
-                      className="text-sm font-semibold"
-                      style={{ color: niveauColor[selected.niveau], fontFamily: "'JetBrains Mono', monospace" }}
-                    >
+                    <p className="text-sm font-semibold font-mono" style={{ color: niveauColor[selected.niveau] }}>
                       {value}
                     </p>
                   </div>
@@ -298,7 +287,7 @@ export default function HomePage() {
         style={{ bottom: "64px", height: sheetExpanded ? "70vh" : "auto" }}
       >
         <div
-          className="rounded-t-3xl overflow-hidden flex flex-col"
+          className="rounded-t-[28px] overflow-hidden flex flex-col"
           style={{
             background: "rgba(255,255,255,0.97)",
             backdropFilter: "blur(24px)",
@@ -316,16 +305,16 @@ export default function HomePage() {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold" style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="text-sm font-bold font-heading" style={{ color: "#0F172A" }}>
                   Quartiers de Douala
                 </p>
-                <p className="text-xs" style={{ color: "#94A3B8" }}>
+                <p className="text-xs font-mono" style={{ color: "#94A3B8" }}>
                   {loading ? "Chargement..." : `${scores.length} zones surveillées`}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 {alertCount > 0 && (
-                  <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "#FEF2F2", color: "#EF4444" }}>
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full font-mono animate-breathe" style={{ background: "#FEF2F2", color: "#EF4444" }}>
                     {alertCount} alerte{alertCount > 1 ? "s" : ""}
                   </span>
                 )}
@@ -341,13 +330,13 @@ export default function HomePage() {
 
           {sheetExpanded && (
             <div className="px-4 pb-3 flex-shrink-0">
-              <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl" style={{ background: "#F0F4FF" }}>
+              <div className="flex items-center gap-2 px-3 py-2.5 rounded-squircle" style={{ background: "#F0F4FF" }}>
                 <Search size={14} color="#94A3B8" />
                 <input
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Rechercher un quartier..."
-                  className="flex-1 text-sm outline-none bg-transparent"
+                  className="flex-1 text-sm outline-none bg-transparent font-heading"
                   style={{ color: "#0F172A" }}
                 />
               </div>
@@ -356,35 +345,44 @@ export default function HomePage() {
 
           <div className="flex-1 overflow-y-auto px-4 pb-4">
             {loading ? (
-              <div className="flex justify-center py-6">
-                <div className="w-5 h-5 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#0EA5E9", borderTopColor: "transparent" }} />
+              <div className="flex flex-col gap-2 pt-1">
+                {Array.from({ length: 4 }).map((_, i) => <SkeletonRow key={i} />)}
               </div>
+            ) : scores.length === 0 ? (
+              <StatusMessages />
             ) : (
               <div className="flex flex-col gap-2">
-                {sortedScores.map(score => (
-                  <button
-                    key={score.quartier_id}
-                    onClick={() => { setSelected(score); setSheetExpanded(false) }}
-                    className="w-full flex items-center justify-between p-3 rounded-xl text-left transition-all active:scale-[0.98]"
-                    style={{
-                      background: selected?.quartier_id === score.quartier_id ? niveauBg[score.niveau] : "#F8FAFC",
-                      border: `1px solid ${selected?.quartier_id === score.quartier_id ? niveauColor[score.niveau] + "40" : "transparent"}`
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: niveauColor[score.niveau] }} />
-                      <span className="text-sm font-semibold" style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                        {score.nom}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge niveau={score.niveau} size="sm" />
-                      <span className="text-sm font-bold" style={{ color: niveauColor[score.niveau], fontFamily: "'JetBrains Mono', monospace", minWidth: "32px", textAlign: "right" }}>
-                        {score.score.toFixed(0)}
-                      </span>
-                    </div>
-                  </button>
-                ))}
+                {sortedScores.map((score, i) => {
+                  const isSelected = selected?.quartier_id === score.quartier_id
+                  return (
+                    <Card
+                      key={score.quartier_id}
+                      niveau={score.niveau}
+                      interactive
+                      onClick={() => { setSelected(score); setSheetExpanded(false) }}
+                      className="p-3 flex items-center justify-between animate-fadeInUp"
+                      style={{
+                        animationDelay: `${Math.min(i * 20, 300)}ms`,
+                        ...(isSelected ? { background: niveauBg[score.niveau], borderColor: niveauColor[score.niveau] + "50" } : {})
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${score.niveau === "critique" ? "animate-breathe" : ""}`} style={{ background: niveauColor[score.niveau] }} />
+                        <span className="text-sm font-semibold font-heading" style={{ color: "#0F172A" }}>
+                          {score.nom}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge niveau={score.niveau} size="sm" />
+                        <AnimatedNumber
+                          value={score.score}
+                          className="text-sm font-bold font-mono"
+                          style={{ color: niveauColor[score.niveau], minWidth: "32px", textAlign: "right" }}
+                        />
+                      </div>
+                    </Card>
+                  )
+                })}
               </div>
             )}
           </div>
@@ -398,24 +396,24 @@ export default function HomePage() {
       >
         <div className="px-4 py-3 flex items-center justify-between flex-shrink-0" style={{ borderBottom: "1px solid #E2E8F0" }}>
           <div>
-            <h2 className="font-bold text-sm" style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Quartiers de Douala</h2>
-            <p className="text-xs" style={{ color: "#94A3B8" }}>{scores.length} zones surveillées</p>
+            <h2 className="font-bold text-sm font-heading" style={{ color: "#0F172A" }}>Quartiers de Douala</h2>
+            <p className="text-xs font-mono" style={{ color: "#94A3B8" }}>{scores.length} zones surveillées</p>
           </div>
           {alertCount > 0 && (
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "#FEF2F2", color: "#EF4444" }}>
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full font-mono animate-breathe" style={{ background: "#FEF2F2", color: "#EF4444" }}>
               {alertCount} alerte{alertCount > 1 ? "s" : ""}
             </span>
           )}
         </div>
 
         <div className="px-3 py-2 flex-shrink-0" style={{ borderBottom: "1px solid #F0F4FF" }}>
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#F0F4FF" }}>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-squircle" style={{ background: "#F0F4FF" }}>
             <Search size={13} color="#94A3B8" />
             <input
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Rechercher..."
-              className="flex-1 text-xs outline-none bg-transparent"
+              className="flex-1 text-xs outline-none bg-transparent font-heading"
               style={{ color: "#0F172A" }}
             />
           </div>
@@ -424,60 +422,58 @@ export default function HomePage() {
         <div className="flex-1 overflow-y-auto p-3">
           <div className="flex flex-col gap-2">
             {loading ? (
-              Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-16 rounded-xl animate-pulse" style={{ background: "#F0F4FF" }} />
-              ))
-            ) : sortedScores.map(score => (
-              <button
-                key={score.quartier_id}
-                onClick={() => setSelected(score)}
-                className="w-full p-3 rounded-xl text-left transition-all hover:scale-[1.01]"
-                style={{
-                  background: selected?.quartier_id === score.quartier_id ? niveauBg[score.niveau] : "#F8FAFC",
-                  borderLeft: `3px solid ${niveauColor[score.niveau]}`
-                }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold" style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{score.nom}</span>
-                  <Badge niveau={score.niveau} size="sm" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="w-full h-1 rounded-full mr-3" style={{ background: "#E2E8F0" }}>
-                    <div className="h-1 rounded-full" style={{ width: `${score.score}%`, background: niveauColor[score.niveau] }} />
+              Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />)
+            ) : scores.length === 0 ? (
+              <StatusMessages />
+            ) : sortedScores.map((score, i) => {
+              const isSelected = selected?.quartier_id === score.quartier_id
+              return (
+                <Card
+                  key={score.quartier_id}
+                  niveau={score.niveau}
+                  interactive
+                  onClick={() => setSelected(score)}
+                  className="p-3 animate-fadeInUp"
+                  style={{
+                    animationDelay: `${Math.min(i * 20, 300)}ms`,
+                    ...(isSelected ? { background: niveauBg[score.niveau], borderColor: niveauColor[score.niveau] + "50" } : {})
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold font-heading" style={{ color: "#0F172A" }}>{score.nom}</span>
+                    <Badge niveau={score.niveau} size="sm" />
                   </div>
-                  <span className="text-sm font-bold flex-shrink-0" style={{ color: niveauColor[score.niveau], fontFamily: "'JetBrains Mono', monospace" }}>
-                    {score.score.toFixed(0)}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 mt-1.5">
-                  <span className="text-xs" style={{ color: "#94A3B8" }}>
-                    <Droplets size={10} className="inline mr-0.5" style={{ color: "#0EA5E9" }} />
-                    {score.pluie_6h}mm
-                  </span>
-                  <span className="text-xs" style={{ color: "#94A3B8" }}>
-                    <Clock size={10} className="inline mr-0.5" />
-                    {formatTime(score.calculated_at)}
-                  </span>
-                </div>
-              </button>
-            ))}
+                  <div className="flex items-center justify-between">
+                    <div className="w-full h-1 rounded-full mr-3" style={{ background: "#E2E8F0" }}>
+                      <div className="h-1 rounded-full" style={{ width: `${score.score}%`, background: niveauColor[score.niveau] }} />
+                    </div>
+                    <AnimatedNumber value={score.score} className="text-sm font-bold flex-shrink-0 font-mono" style={{ color: niveauColor[score.niveau] }} />
+                  </div>
+                  <div className="flex items-center gap-3 mt-1.5">
+                    <span className="text-xs font-mono" style={{ color: "#94A3B8" }}>
+                      <Droplets size={10} className="inline mr-0.5" style={{ color: "#0EA5E9" }} />
+                      {score.pluie_6h}mm
+                    </span>
+                    <span className="text-xs" style={{ color: "#94A3B8" }}>
+                      <Clock size={10} className="inline mr-0.5" />
+                      {formatTime(score.calculated_at)}
+                    </span>
+                  </div>
+                </Card>
+              )
+            })}
           </div>
         </div>
 
         {selected && (
-          <div
-            className="flex-shrink-0 p-4"
-            style={{ borderTop: `3px solid ${niveauColor[selected.niveau]}`, background: niveauBg[selected.niveau] }}
-          >
+          <Card niveau={selected.niveau} className="flex-shrink-0 m-3 mt-0 p-4 animate-fadeInUp">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <h3 className="font-bold text-base mb-1" style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{selected.nom}</h3>
+                <h3 className="font-bold text-base mb-1 font-heading" style={{ color: "#0F172A" }}>{selected.nom}</h3>
                 <Badge niveau={selected.niveau} size="sm" />
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-3xl" style={{ color: niveauColor[selected.niveau], fontFamily: "'JetBrains Mono', monospace" }}>
-                  {selected.score.toFixed(0)}
-                </span>
+                <AnimatedNumber value={selected.score} className="font-bold text-3xl font-mono" style={{ color: niveauColor[selected.niveau] }} />
                 <button onClick={() => setSelected(null)} className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: "rgba(0,0,0,0.06)" }}>
                   <X size={12} color="#64748B" />
                 </button>
@@ -488,13 +484,13 @@ export default function HomePage() {
                 { label: "Pluie 6h", value: `${selected.pluie_6h}mm` },
                 { label: "Pluie 24h", value: `${selected.pluie_24h}mm` },
               ].map(({ label, value }) => (
-                <div key={label} className="rounded-xl p-2.5 text-center" style={{ background: "rgba(255,255,255,0.6)" }}>
+                <div key={label} className="rounded-squircle p-2.5 text-center" style={{ background: "rgba(255,255,255,0.6)" }}>
                   <p className="text-xs mb-0.5" style={{ color: "#94A3B8" }}>{label}</p>
-                  <p className="text-sm font-bold" style={{ color: niveauColor[selected.niveau], fontFamily: "'JetBrains Mono', monospace" }}>{value}</p>
+                  <p className="text-sm font-bold font-mono" style={{ color: niveauColor[selected.niveau] }}>{value}</p>
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
         )}
       </div>
 

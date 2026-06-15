@@ -113,3 +113,13 @@ body { min-height: 100vh; }
 
 .maplibregl-popup-tip { display: none; }
 .maplibregl-ctrl-attrib { font-size: 10px; opacity: 0.6; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, var(--border) 25%, var(--bg-primary) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
