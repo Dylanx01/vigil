@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useMemo } from "react"
 import { ScoreRisque } from "@/types"
-import { Box } from "lucide-react"
+import { Box, Layers } from "lucide-react"
 
 interface MapVigilProps {
   scores: ScoreRisque[]
@@ -24,8 +24,31 @@ const niveauOpacity = {
   critique: 0.85
 }
 
-// Hauteur en mètres : score 0-100 -> 40m à 440m, pour une skyline lisible
+const niveauLabels = {
+  faible: "Faible",
+  modere: "Modéré",
+  eleve: "Élevé",
+  critique: "Critique"
+}
+
+const niveauOrder: Array<keyof typeof niveauColor> = ["faible", "modere", "eleve", "critique"]
+
+// Hauteur des mini-tours dans la légende (px)
+const towerHeights = {
+  faible: 8,
+  modere: 14,
+  eleve: 20,
+  critique: 28
+}
+
+// Hauteur en mètres : score 0-100 -> 100m à 4100m, exagéré pour visibilité à zoom 12-13
 const scoreToHeight = (score: number) => 100 + score * 40
+
+const glassStyle: React.CSSProperties = {
+  background: "rgba(255,255,255,0.12)",
+  backdropFilter: "blur(12px)",
+  border: "1px solid rgba(255,255,255,0.1)"
+}
 
 export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProps) {
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -33,6 +56,17 @@ export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProp
   const userMarkerRef = useRef<any>(null)
   const [mapLoaded, setMapLoaded] = useState(false)
   const [is3D, setIs3D] = useState(true)
+  const [legendExpanded, setLegendExpanded] = useState(false)
+  const [activeFilter, setActiveFilter] = useState<keyof typeof niveauColor | null>(null)
+
+  // Compteurs live par niveau, pour la légende
+  const niveauCounts = useMemo(() => {
+    const counts: Record<string, number> = { faible: 0, modere: 0, eleve: 0, critique: 0 }
+    scores.forEach(s => {
+      if (counts[s.niveau] !== undefined) counts[s.niveau]++
+    })
+    return counts
+  }, [scores])
 
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return
@@ -143,7 +177,7 @@ export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProp
     }
   }, [])
 
-  // Mise à jour couleur + hauteur + opacité selon les scores
+  // Mise à jour couleur + hauteur + opacité selon les scores ET le filtre actif
   useEffect(() => {
     if (!mapRef.current || !mapLoaded || scores.length === 0) return
 
@@ -158,18 +192,25 @@ export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProp
     scores.forEach(score => {
       colorExpression.push(score.quartier_id, niveauColor[score.niveau])
       heightExpression.push(score.quartier_id, scoreToHeight(score.score))
-      opacityExpression.push(score.quartier_id, niveauOpacity[score.niveau])
+
+      let opacity: number = niveauOpacity[score.niveau]
+      if (activeFilter) {
+        opacity = score.niveau === activeFilter
+          ? Math.min(opacity + 0.15, 1)
+          : 0.08
+      }
+      opacityExpression.push(score.quartier_id, opacity)
     })
 
     colorExpression.push("#10B981")
     heightExpression.push(40)
-    opacityExpression.push(0.55)
+    opacityExpression.push(activeFilter ? 0.08 : 0.55)
 
     map.setPaintProperty("quartiers-extrusion", "fill-extrusion-color", colorExpression)
     map.setPaintProperty("quartiers-extrusion", "fill-extrusion-height", heightExpression)
     map.setPaintProperty("quartiers-extrusion", "fill-extrusion-opacity", opacityExpression)
 
-  }, [scores, mapLoaded])
+  }, [scores, mapLoaded, activeFilter])
 
   // Gestion du marqueur de position utilisateur + centrage carte
   useEffect(() => {
@@ -249,6 +290,10 @@ export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProp
     setIs3D(next)
   }
 
+  const toggleFilter = (niveau: keyof typeof niveauColor) => {
+    setActiveFilter(prev => (prev === niveau ? null : niveau))
+  }
+
   return (
     <div className="relative w-full h-full">
       <div
@@ -257,22 +302,85 @@ export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProp
         style={{ position: "absolute", inset: 0 }}
       />
 
-     {/* Toggle 2D / 3D */}
-{mapLoaded && (
-  <button
-    onClick={toggle3D}
-    className="absolute z-10 flex items-center justify-center w-9 h-9 rounded-xl transition-colors bottom-44 left-4 md:bottom-[104px] md:left-4"
-    style={{
-      background: "rgba(255,255,255,0.12)",
-      backdropFilter: "blur(12px)",
-      border: "1px solid rgba(255,255,255,0.1)",
-      color: is3D ? "#0EA5E9" : "#FFFFFF"
-    }}
-    aria-label="Basculer vue 2D/3D"
-  >
-    <Box size={16} />
-  </button>
-)}
+      {/* Toggle 2D / 3D */}
+      {mapLoaded && (
+        <button
+          onClick={toggle3D}
+          className="absolute z-10 flex items-center justify-center w-9 h-9 rounded-xl transition-colors bottom-44 left-4 md:bottom-[104px] md:left-4"
+          style={{
+            ...glassStyle,
+            color: is3D ? "#0EA5E9" : "#FFFFFF"
+          }}
+          aria-label="Basculer vue 2D/3D"
+        >
+          <Box size={16} />
+        </button>
+      )}
+
+      {/* Légende interactive */}
+      {mapLoaded && (
+        <div className="absolute z-10 top-28 right-4 md:top-4 flex flex-col items-end gap-2">
+          <button
+            onClick={() => setLegendExpanded(!legendExpanded)}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-colors"
+            style={glassStyle}
+          >
+            <Layers size={14} color="#FFFFFF" />
+            <span className="text-xs font-semibold" style={{ color: "#FFFFFF" }}>
+              Légende
+            </span>
+          </button>
+
+          {legendExpanded && (
+            <div className="rounded-xl p-2 flex flex-col gap-1 w-48" style={glassStyle}>
+              {niveauOrder.map(niveau => {
+                const isActive = activeFilter === niveau
+                const isDimmed = activeFilter !== null && !isActive
+
+                return (
+                  <button
+                    key={niveau}
+                    onClick={() => toggleFilter(niveau)}
+                    className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg transition-all"
+                    style={{
+                      background: isActive ? "rgba(255,255,255,0.15)" : "transparent",
+                      opacity: isDimmed ? 0.4 : 1
+                    }}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex items-end h-7 w-3 flex-shrink-0">
+                        <div
+                          className="w-full rounded-sm"
+                          style={{ height: `${towerHeights[niveau]}px`, background: niveauColor[niveau] }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium" style={{ color: "#FFFFFF" }}>
+                        {niveauLabels[niveau]}
+                      </span>
+                    </div>
+                    <span
+                      className="text-xs font-bold"
+                      style={{ color: niveauColor[niveau], fontFamily: "'JetBrains Mono', monospace" }}
+                    >
+                      {niveauCounts[niveau]}
+                    </span>
+                  </button>
+                )
+              })}
+
+              {activeFilter && (
+                <button
+                  onClick={() => setActiveFilter(null)}
+                  className="text-xs font-medium mt-1 py-1 rounded-lg transition-colors"
+                  style={{ color: "#94A3B8" }}
+                >
+                  Réinitialiser
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Loading overlay */}
       {!mapLoaded && (
@@ -302,16 +410,15 @@ export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProp
             opacity: 0;
           }
         }
-
         @media (max-width: 767px) {
-  .maplibregl-ctrl-bottom-left {
-    bottom: 256px !important;
-    left: 16px !important;
-  }
-}
+          .maplibregl-ctrl-bottom-left {
+            bottom: 256px !important;
+            left: 16px !important;
+          }
+        }
         .maplibregl-ctrl-bottom-left {
-          bottom: 16px !important;
-          left: 16px !important;
+          bottom: 16px;
+          left: 16px;
         }
         .maplibregl-ctrl-bottom-right {
           bottom: 8px !important;
