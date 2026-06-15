@@ -130,12 +130,7 @@ export default function HomePage() {
           >
             <div className="flex items-center justify-between px-4 py-3">
               <div className="flex items-center gap-2.5">
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center"
-                  style={{ background: "#0EA5E9", boxShadow: "0 4px 12px rgba(14,165,233,0.3)" }}
-                >
-                  <Shield size={15} color="white" />
-                </div>
+              <img src="/logo.svg" alt="Vigil" width={32} height={32} />
                 <div>
                   <span
                     className="font-bold text-sm block leading-none"

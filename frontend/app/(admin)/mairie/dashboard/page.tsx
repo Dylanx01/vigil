@@ -106,12 +106,7 @@ export default function MairieDashboardPage() {
         style={{ background: "var(--bg-sidebar)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <div className="flex items-center gap-2">
-          <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center"
-            style={{ background: "var(--brand)" }}
-          >
-            <Shield size={14} color="white" />
-          </div>
+        <img src="/logo.svg" alt="Vigil" width={28} height={28} />
           <span
             className="font-bold text-base text-white"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}

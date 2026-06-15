@@ -53,7 +53,7 @@ export function Sidebar() {
             className="w-6 h-6 rounded-md flex items-center justify-center"
             style={{ background: "var(--brand)" }}
           >
-            <Shield size={12} color="white" />
+           <img src="/logo.svg" alt="Vigil" width={20} height={20} />
           </div>
           <div>
             <p className="text-xs font-semibold text-white">Vigil</p>

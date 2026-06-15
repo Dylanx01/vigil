@@ -36,12 +36,7 @@ export default function ConnexionPage() {
     >
       {/* Logo */}
       <div className="text-center mb-10">
-        <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
-          style={{ background: "#0EA5E9" }}
-        >
-          <Shield size={26} color="white" />
-        </div>
+      <img src="/logo.svg" alt="Vigil" width={56} height={56} className="mx-auto" />
         <h1
           className="text-2xl font-bold mb-1"
           style={{ color: "#0F172A", fontFamily: "'Plus Jakarta Sans', sans-serif" }}

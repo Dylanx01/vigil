@@ -136,7 +136,7 @@ export default function ProfilPage() {
                 className="mt-4 flex items-center gap-2 px-3 py-2.5 rounded-xl"
                 style={{ background: "#EFF6FF" }}
               >
-                <Shield size={13} style={{ color: "#0EA5E9" }} />
+                <Bell size={13} style={{ color: "#0EA5E9" }} />
                 <span className="text-xs font-medium" style={{ color: "#0369A1" }}>
                   Vous êtes alerté sur{" "}
                   <strong>{abonnements.length} quartier{abonnements.length > 1 ? "s" : ""}</strong>

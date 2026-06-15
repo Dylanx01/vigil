@@ -29,12 +29,7 @@ export default function MairieLoginPage() {
 
         {/* Logo */}
         <div className="text-center mb-8">
-          <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
-            style={{ background: "var(--brand)" }}
-          >
-            <Shield size={28} color="white" />
-          </div>
+        <img src="/logo.svg" alt="Vigil" width={56} height={56} className="mx-auto" />
           <h1
             className="text-2xl font-bold text-white mb-1"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
