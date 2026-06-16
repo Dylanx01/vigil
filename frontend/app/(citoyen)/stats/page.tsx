@@ -20,7 +20,7 @@ const niveauColor: Record<string, string> = {
 }
 
 export default function StatsPage() {
-  const { scores, loading, lastUpdate } = useScores()
+  const { scores, loading, lastUpdate, status, refetch } = useScores()
 
   const total = scores.length
   const critique = scores.filter(s => s.niveau === "critique").length
@@ -51,7 +51,7 @@ export default function StatsPage() {
 
   return (
     <div style={{ background: "#F0F4FF", minHeight: "100vh" }}>
-      <Navbar lastUpdate={lastUpdate} />
+      <Navbar lastUpdate={lastUpdate} status={status} onRetry={refetch} />
       <Sidebar />
 
       <div className="pt-14 md:pl-56 pb-16 md:pb-0">

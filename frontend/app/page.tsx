@@ -37,7 +37,7 @@ const niveauLabel: Record<string, string> = {
 }
 
 export default function HomePage() {
-  const { scores, loading, lastUpdate } = useScores()
+  const { scores, loading, lastUpdate, status, refetch } = useScores()
   const [selected, setSelected] = useState<ScoreRisque | null>(null)
   const [sheetExpanded, setSheetExpanded] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -80,7 +80,7 @@ export default function HomePage() {
     >
       {/* Desktop layout */}
       <div className="hidden md:block">
-        <Navbar lastUpdate={lastUpdate} />
+      <Navbar lastUpdate={lastUpdate} status={status} onRetry={refetch} />
         <Sidebar />
       </div>
 

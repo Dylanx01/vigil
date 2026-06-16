@@ -45,7 +45,7 @@ export default function AlertesPage() {
 
   return (
     <div style={{ background: "#F0F4FF", minHeight: "100vh" }}>
-      <Navbar lastUpdate={lastUpdate} />
+      <Navbar lastUpdate={lastUpdate} status={status} onRetry={refetch} />
       <Sidebar />
 
       <div className="pt-14 md:pl-56 pb-16 md:pb-0">

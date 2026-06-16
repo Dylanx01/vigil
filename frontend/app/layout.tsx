@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import type { Viewport } from "next"
 import { Toaster } from "react-hot-toast"
+import { LanguageProvider } from "@/lib/i18n-context"
 import "./globals.css"
 import "maplibre-gl/dist/maplibre-gl.css"
 
@@ -39,11 +40,7 @@ export const viewport: Viewport = {
   userScalable: false,
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
       <head>
@@ -61,35 +58,27 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#0EA5E9" />
       </head>
       <body style={{ fontFamily: "'Inter', sans-serif", margin: 0, padding: 0 }}>
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: "#FFFFFF",
-              color: "#0F172A",
-              borderRadius: "12px",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontWeight: 500,
-              fontSize: "14px",
-              padding: "12px 16px",
-            },
-            success: {
-              iconTheme: {
-                primary: "#10B981",
-                secondary: "white",
+        <LanguageProvider>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: "#FFFFFF",
+                color: "#0F172A",
+                borderRadius: "12px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 500,
+                fontSize: "14px",
+                padding: "12px 16px",
               },
-            },
-            error: {
-              iconTheme: {
-                primary: "#EF4444",
-                secondary: "white",
-              },
-            },
-          }}
-        />
-        {children}
+              success: { iconTheme: { primary: "#10B981", secondary: "white" } },
+              error: { iconTheme: { primary: "#EF4444", secondary: "white" } },
+            }}
+          />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   )
