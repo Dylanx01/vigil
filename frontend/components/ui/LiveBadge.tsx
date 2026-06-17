@@ -35,7 +35,7 @@ const statusConfig = {
   }
 }
 
-export function LiveBadge({ lastUpdate, status = "live", onRetry }: LiveBadgeProps) {
+export function LiveBadge({ lastUpdate = null, status = "live", onRetry }: LiveBadgeProps) {
   const config = statusConfig[status]
 
   return (
