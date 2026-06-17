@@ -28,7 +28,7 @@ const niveauBg: Record<string, string> = {
 }
 
 export default function AlertesPage() {
-  const { scores, loading: loadingScores, lastUpdate } = useScores()
+  const { scores, loading: loadingScores, lastUpdate, status, refetch } = useScores()
   const { signalements } = useSignalements()
 
   const quartiers_alerte = scores.filter(s => s.niveau === "eleve" || s.niveau === "critique")
