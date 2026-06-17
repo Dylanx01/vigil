@@ -208,7 +208,7 @@ export function MapVigil({ scores, onQuartierClick, userLocation }: MapVigilProp
 
     map.setPaintProperty("quartiers-extrusion", "fill-extrusion-color", colorExpression)
     map.setPaintProperty("quartiers-extrusion", "fill-extrusion-height", heightExpression)
-    map.setPaintProperty("quartiers-extrusion", "fill-extrusion-opacity", opacityExpression)
+    map.setPaintProperty("quartiers-extrusion", "fill-extrusion-opacity", activeFilter ? 0.85 : 0.55)
 
   }, [scores, mapLoaded, activeFilter])
 
