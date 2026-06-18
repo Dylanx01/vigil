@@ -54,7 +54,8 @@ async def envoyer_sms(telephone: str, message: str) -> bool:
     
     try:
         sender = f"tel:+{ORANGE_SENDER_NUMBER}"
-        url = f"{ORANGE_SMS_URL}/{sender}/requests"
+        sender_url = f"tel%3A%2B{ORANGE_SENDER_NUMBER}"
+        url = f"{ORANGE_SMS_URL}/{sender_url}/requests"
         
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.post(
